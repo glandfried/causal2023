@@ -1916,6 +1916,153 @@ P(\text{Modelo}|\text{Datos})
 
 \begin{frame}[plain]
 \begin{textblock}{160}(0,4)
+ \centering \LARGE Identificación de efecto causal\\
+ \large Con observación, sin intervenciones.
+ \end{textblock}
+ \vspace{0.75cm}
+
+
+\only<1-2>{
+\begin{textblock}{140}(10,27) \centering
+\includegraphics[width=0.70\textwidth, page=1]{figuras/simpson.pdf}
+\end{textblock}
+}
+\only<3->{
+\begin{textblock}{140}(10,27) \centering
+\includegraphics[width=0.70\textwidth, page=2]{figuras/simpson.pdf}
+\end{textblock}
+}
+
+
+\only<1-4>{
+\begin{textblock}{150}(5,14) \small
+\begin{flalign*}
+& P(\text{Derrumbes}|do(\text{Intensidad del sismo})) \overset{?}{=}  \onslide<4>{\sum_{\text{Ciudad}}} \only<2>{P(\text{Derrumbes}|\text{Intensidad del sismo})} \only<3-4>{P(\text{Derrumbes}|\text{Intensidad del sismo}, \text{Ciudad})} \onslide<4>{P(\text{Ciudad})}
+&&
+\end{flalign*}
+\end{textblock}
+}
+
+\only<5>{
+\begin{textblock}{150}(5,18) \centering
+\textbf{Para distinguir el efecto causal necesitamos conocer el modelo causal}
+\end{textblock}
+}
+
+
+
+
+\end{frame}
+
+
+
+\begin{frame}[plain]
+\begin{textblock}{160}(0,4)
+ \centering \LARGE Identificación de modelo causal\\
+ \large Con observaciones, sin intervenciones
+\end{textblock}
+ \centering
+ \vspace{0.75cm}
+
+\begin{textblock}{70}(5,18)
+\raggedleft
+ \tikz{
+    \node[det] (a) {$A_{_{\onslide<6->{\phantom}{i}}}$} ; %
+    \node[det, below=of a] (b) {$B_{_{\onslide<6->{\phantom}{i}}}$} ; %
+    \node[const, left= of a, xshift=-0.3cm, yshift=0.1cm] (pa) { \small
+    \begin{tabular}{|c|c|}
+          $A=0$  &  $A=1$   \\ \hline
+        $0.5$ & $0.5$   \\ \hline
+    \end{tabular}
+    }; %
+    \node[const, above= of pa] (npa) {\small$P(A)$};
+
+
+    \node[const, left=of b, xshift=-0.3cm, yshift=-0.1cm] (pb) { \small
+    \begin{tabular}{c|c|c|}
+        &  $B=0$  &  $B=1$   \\ \hline
+       $A=0$ & $0.95$ & $0.05$   \\ \hline
+       $A=1$ & $0.05$ & $0.95$   \\ \hline
+    \end{tabular}
+    };
+    \node[const, above= of pb] (npb) {\small$P(B|A)$};
+
+    \node[invisible, above=of a, yshift=1cm] (ia) {};
+
+    \onslide<5->{\plate {datos} {(a)(b)} {\tiny$i$: Dato};}
+
+    \edge {a} {b};
+    }
+\end{textblock}
+\only<4->{
+\begin{textblock}{70}(85,18)
+\raggedright
+    \tikz{
+    \node[det] (a) {$A_{_{\onslide<6->{\phantom}{i}}}$} ; %
+    \node[det, below=of a] (b) {$B_{_{\onslide<6->{\phantom}{i}}}$} ; %
+    \node[const, right= of a, xshift=0.3cm, yshift=0.1cm] (pa) { \small
+    \begin{tabular}{c|c|c|}
+        &  $A=0$  &  $A=1$   \\ \hline
+       $B=0$ & $0.95$ & $0.05$   \\ \hline
+       $B=1$ & $0.05$ & $0.95$   \\ \hline
+    \end{tabular}
+    }; %
+    \node[const, above= of pa] (npa) {\small$P(A|B)$};
+
+
+    \node[const, right=of b, xshift=0.3cm, yshift=-0.1cm] (pb) { \small
+    \begin{tabular}{|c|c|}
+          $B=0$  &  $B=1$   \\ \hline
+        $0.5$ & $0.5$   \\ \hline
+    \end{tabular}
+    };
+    \node[const, above= of pb] (npb) {\small$P(B)$};
+
+    \node[invisible, above=of a, yshift=1cm] (ia) {};
+
+    \onslide<5->{\plate {datos} {(a)(b)} {\tiny$i$: Dato};}
+
+    \edge {b} {a};
+    }
+\end{textblock}
+}
+
+\only<2-4>{
+\begin{textblock}{140}(44,66)
+\begin{flalign*}
+& P(A, B) = P(A) P(B|A) \only<3->{= P(B) P(A|B)} &&
+\end{flalign*}
+\end{textblock}
+}
+
+\only<5-6>{
+\begin{textblock}{160}(0,60)
+\begin{equation*}
+P(\text{Modelo} | \text{Datos} = \{(a_1, b_1), (a_2, b_2), \dots \}) = \onslide<5>{?} \onslide<6>{\frac{\overbrace{P(\text{Datos}|\text{Modelo})}^{\text{Predicción}} P(\text{Modelo})}{P(\text{Datos})}}
+\end{equation*}
+\end{textblock}
+}
+
+\only<7->{
+\begin{textblock}{160}(0,66)
+\begin{equation*}
+P(\text{Datos}|\text{Modelo}_{A\rightarrow B}) =  P(\text{Datos}|\text{Modelo}_{B\rightarrow A})
+\end{equation*}
+
+\only<8>{Con mismas predicciones, no podemos distinguir el modelo causal!}
+\only<9>{\textbf{Para distinguir el modelo causal necesitamos intervenciones do()}}
+
+\end{textblock}
+}
+
+
+\end{frame}
+
+
+
+
+\begin{frame}[plain]
+\begin{textblock}{160}(0,4)
  \centering \LARGE Intervenciones
 
 \Large El operador \textit{do}($x$)
@@ -2018,10 +2165,10 @@ del proceso generativo de lo datos
 \raggedright
 %\onslide<2->{Modelo gráfico} \\ \vspace{0.3cm}
  \tikz{
-    \node[det, minimum size=1.4cm] (r) {\includegraphics[width=0.12\textwidth]{auxiliar/static/regalo.png}} ;
+    \node[latent, minimum size=1.4cm] (r) {\includegraphics[width=0.12\textwidth]{auxiliar/static/regalo.png}} ;
     \node[const,above=of r] (pr) {\normalsize $P(r)$} ;
 
-    \node[det, below=of r,minimum size=1.4cm] (d) {\includegraphics[width=0.10\textwidth]{auxiliar/static/dedo.png}} ;
+    \node[latent, below=of r,minimum size=1.4cm] (d) {\includegraphics[width=0.10\textwidth]{auxiliar/static/dedo.png}} ;
     \node[const,left=of d] (pd) {\normalsize $P(s|r)$} ;
 
 \node[invisible,left=of d, xshift=-1.5cm] () {} ;
@@ -2061,7 +2208,7 @@ P(r, s)
     \node[const,above=of r] (pr) {\normalsize $P(r)$} ;
 
     \node[latent, minimum size=1.4cm, fill=black!40, above=of d, xshift=-1.2cm] (c) {\includegraphics[width=0.12\textwidth]{auxiliar/static/cerradura.png}} ;
-    \node[const,above=of c] (pc) {\normalsize $\text{do}(c = 1)$} ;
+    \node[const,above=of c] (pc) {\normalsize $\text{do}(c1)$} ;
 
 
     \node[invisible,left=of d, xshift=-1.5cm] () {} ;
@@ -2075,7 +2222,7 @@ P(r, s)
 \begin{textblock}{80}(65,24) \centering \Large
 Intervención
 \begin{equation*}
-P(r, s| \text{do}(c = 1) )
+P(r, s| \text{do}(c1) )
 \end{equation*}
 \large
 \begin{tabular}{c|c|c|c|}
@@ -2099,7 +2246,7 @@ P(r, s| \text{do}(c = 1) )
       \node[const,left=of d] (pd) {\normalsize $s=2$} ;
 
       \node[latent, minimum size=1.4cm, fill=black!40, above=of d, xshift=-1.2cm] (c) {\includegraphics[width=0.12\textwidth]{auxiliar/static/cerradura.png}} ;
-      \node[const,above=of c] (pc) {\normalsize $\text{do}(c=1)$} ;
+      \node[const,above=of c] (pc) {\normalsize $\text{do}(c1)$} ;
        \edge {r,c} {d};
     }
     \only<6->{
@@ -2109,7 +2256,7 @@ P(r, s| \text{do}(c = 1) )
 
 
       \node[latent, minimum size=1.4cm, fill=black!40, above=of d, xshift=-1.2cm, opacity=0.3] (c) {\includegraphics[width=0.12\textwidth]{auxiliar/static/cerradura.png}} ;
-      \node[const,above=of c] (pc) {\normalsize $\text{do}(c=1)$} ;
+      \node[const,above=of c] (pc) {\normalsize $\text{do}(c1)$} ;
       \edge {r,c} {d};
       }
     }
@@ -2138,7 +2285,7 @@ P(r, s| \text{do}(c = 1) )
 \begin{textblock}{80}(65,24) \centering \Large
 Factual
 \begin{equation*}
-P(r| \text{do}(c = 1), s = 2 )
+P(r| \text{do}(c1), s2 )
 \end{equation*}
 \large
 \begin{tabular}{|c|c|c|}
@@ -2152,7 +2299,7 @@ P(r| \text{do}(c = 1), s = 2 )
 \begin{textblock}{80}(75,24) \centering \Large
 Contra factual
 \begin{equation*}
-P(s^{\prime}, r | \text{do}(c = 1), s = 2 , \text{do}(c^{\prime}= 2))
+P(s^{\prime}, r | \text{do}(c1), s2 , \text{do}(c^{\prime}2))
 \end{equation*}
 \large
 \only<7>{
@@ -2194,7 +2341,7 @@ P(r, s)
 \begin{textblock}{50}(54,28) \centering
 \textbf{Intervención}
 \begin{equation*}
-P(r, s| \text{do}(c = 1))
+P(r, s| \text{do}(c1))
 \end{equation*}
 \large
 \begin{tabular}{c|c|c|c|}
@@ -2210,7 +2357,7 @@ P(r, s| \text{do}(c = 1))
 \begin{textblock}{50}(104,28) \centering
 \textbf{Contra factual}
 \begin{equation*}
-P(s^{\prime}, r | \text{do}_{c^{\prime}}= 2, \text{do}(c = 1), s = 2) \ \
+P(s^{\prime}, r | \text{do}(c^{\prime}2), \text{do}(c1), s2) \ \
 \end{equation*}
 \large
 \begin{tabular}{c|c|c|c|}
@@ -2226,7 +2373,7 @@ P(s^{\prime}, r | \text{do}_{c^{\prime}}= 2, \text{do}(c = 1), s = 2) \ \
 \begin{textblock}{160}(0,72) \centering
 \textbf{Efecto causal}\\[-0.8cm]
 \begin{align*}
-\underbrace{P(r,s|\text{do}_c = 1, \text{Modelo Causal})}_{\text{Intervención 1}} - \underbrace{P(r,s|\text{do}_c = 2, \text{Modelo Causal})}_{\text{Intervención 2}}
+\underbrace{P(r,s|\text{do}(c1), \text{Modelo Causal})}_{\text{Intervención 1}} - \underbrace{P(r,s|\text{do}(c2), \text{Modelo Causal})}_{\text{Intervención 2}}
 \end{align*}
 \end{textblock}
 }
@@ -2263,36 +2410,14 @@ P(y|\text{do}(T = 1) , \text{Modelo Causal}) - P(y|\text{do}(T = 0) , \text{Mode
 \only<2-3>{
 \begin{textblock}{160}(0,44) \centering
 \Large Para estimar el efecto causal sin hacer intervenciones \\
-\large necesitamos \textit{exchangeability}: $(Y \indep T \,|\, W)$
+\Large necesitamos \textit{exchangeability}: $(Y \indep T \,|\, W)$
 
-\begin{equation*}
-P(y\,|\,\text{do}(t)) = \onslide<3>{\sum_w P(y\,|\, t, w) P(w)}
-\end{equation*}
+\vspace{0.6cm}
 
-\end{textblock}
+\only<3>{
+¿Cómo determinamos las variables de control $W$?
 }
 
-
-
-
-\only<4>{
-\begin{textblock}{140}(10,27) \centering
-\includegraphics[width=0.70\textwidth, page=1]{figuras/simpson.pdf}
-\end{textblock}
-}
-\only<5-6>{
-\begin{textblock}{140}(10,27) \centering
-\includegraphics[width=0.70\textwidth, page=2]{figuras/simpson.pdf}
-\end{textblock}
-}
-
-
-\only<4->{
-\begin{textblock}{150}(5,14) \centering \small
-\begin{flalign*}
-& P(\text{Derrumbes}|do(\text{Intensidad del sismo})) \only<4>{\overset{?}{=}}\only<5>{\approx}\only<6>{=} \onslide<6>{\sum_{\text{Ciudad}}} \only<5-6>{P(\text{Derrumbes}|\text{Intensidad del sismo}, \text{Ciudad})} \onslide<6>{P(\text{Ciudad})}
-&&
-\end{flalign*}
 \end{textblock}
 }
 
@@ -2304,8 +2429,8 @@ P(y\,|\,\text{do}(t)) = \onslide<3>{\sum_w P(y\,|\, t, w) P(w)}
 
  \begin{frame}[plain]
 \begin{textblock}{160}(0,4)
- \centering \LARGE Flujo de inferencia \\
- \large Independencia condicional
+ \centering \LARGE Flujo de inferencia en modelos causales\\
+ \large Independencias condicionales
  \end{textblock}
  \centering
  \vspace{0.75cm}
@@ -2353,8 +2478,8 @@ P(y\,|\,\text{do}(t)) = \onslide<3>{\sum_w P(y\,|\, t, w) P(w)}
 
  \begin{frame}[plain]
 \begin{textblock}{160}(0,4)
- \centering \LARGE Flujo de inferencia \\
- \large Independencia condicional
+ \centering \LARGE Flujo de inferencia en modelos causales\\
+ \large Independencias condicionales
  \end{textblock}
  \centering
  \vspace{0.75cm}
@@ -2467,22 +2592,6 @@ $\phantom{\overset{?}{=}} P(t|l) \only<13>{\overset{?}{=}}\only<14>{\neq} P(t|l,
  \end{frame}
 
 
-
-
- \begin{frame}[plain]
-\begin{textblock}{160}(0,4)
- \centering \LARGE Backdoor Criterion\\
- \end{textblock}
- \vspace{0.75cm}
-
- \begin{flalign*}
-\hspace{1.5cm} & P(y|\text{do}(t)) = \sum_w P(y|\text{do}(t), w) P(w|\text{do}(t)) \\[0.3cm]
-& hhs &&
- \end{flalign*}
-
-\end{frame}
-
-
  \begin{frame}[plain]
 \begin{textblock}{160}(0,4)
  \centering \LARGE Flujo de inferencia causal \\
@@ -2510,7 +2619,8 @@ $\phantom{\overset{?}{=}} P(t|l) \only<13>{\overset{?}{=}}\only<14>{\neq} P(t|l,
     \only<2>{\edge {c} {t};}
     \only<1,3-4>{\edge {c} {e,t};}
 
-    \node[const, left= of e, xshift=-0.1cm] (cpd_e) {Entradera:};
+    \only<1,3>{\node[const, left= of e, xshift=-0.1cm] (cpd_e) {Entradera:};}
+    \only<2>{\node[const, left= of e, xshift=-0.1cm] (cpd_e) {\textit{do}(Entradera)};}
     \node[const, right= of t, xshift=0.1cm] (cpd_t) {:Terremoto};
     \node[const, right= of c, xshift=0.1cm] (cpd_c) {:Ciudad};
     \node[const, left= of a, xshift=-0.1cm] (cpd_a) {Alarma:};
@@ -2520,28 +2630,285 @@ $\phantom{\overset{?}{=}} P(t|l) \only<13>{\overset{?}{=}}\only<14>{\neq} P(t|l,
     }
 \end{textblock}
 
-
-
-\only<2-3>{
-\begin{textblock}{160}(0,74) \centering
-\begin{equation*}
-P( \text{Llamada} | do(\text{Entradera}) ) = \onslide<2>{\sum_{\text{Ciudad}} P(\text{Llamada}|\text{Entradera}, \text{Ciudad}) P(\text{Ciudad}) }
-\end{equation*}
+\only<2>{
+\begin{textblock}{150}(5,80) \centering
+\Large Intervenimos en el modelo causal
 \end{textblock}
 }
 
-
-\only<4>{
-\begin{textblock}{150}(5,75)
-Backdoor criterion
-
-\Large
- Hay inferencia casual si todos los flujos ``traseros'' permanecen cerrados.
+\only<3>{
+\begin{textblock}{150}(5,80) \centering
+\Large Cerramos el flujo de inferencia trasero
 \end{textblock}
 }
 
 \end{frame}
 
+
+ \begin{frame}[plain]
+\begin{textblock}{160}(0,4)
+ \centering \LARGE  Flujo de inferencia causal
+ \end{textblock}
+
+\begin{textblock}{160}(0,12)
+ \centering
+
+ \tikz{
+    \node[det] (l) {$l$} ; %
+    \node[det, above=of l] (a) {$a$} ; %
+    \node[det, above=of a,xshift=1.5cm] (t) {$t$} ; %
+    \only<1-2>{\node[det, above=of a,xshift=-1.5cm] (e) {$e$} ; }
+    \only<3->{\node[det, above=of a,fill=black!15,xshift=-1.5cm] (e) {$e$} ; }
+    \node[det, below=of t,xshift=1.5cm] (r) {$r$} ; %
+    \only<1-3>{\node[det, above=of e,xshift=1.5cm] (c) {$c$} ; }
+    \only<4->{\node[det, above=of e, fill=black!15, xshift=1.5cm] (c) {$c$} ; }
+
+    \edge {c} {e,t};
+    \edge {a} {l};
+    \edge {t,e} {a};
+    \edge {t} {r};
+
+
+    \only<1-2>{
+    \node[const, left= of c, xshift=-0.1cm] (cpd_c) {
+    \begin{tabular}{|c|c|}
+        \hline
+        $c^0$ & $c^1$ \\ \hline
+        $0.200$ & $0.800$  \\ \hline
+    \end{tabular}
+    };
+    \node[const, above= of cpd_c] (n_c) {$P(\text{Ciudad})$};
+    }
+    \only<3>{
+    \node[const, left= of c, xshift=-0.1cm] (cpd_c) {
+    \begin{tabular}{|c|c|}
+        \hline
+        $c^0$ & $c^1$ \\ \hline
+        $0.208$ & $0.792$  \\ \hline
+    \end{tabular}
+    };
+    \node[const, above= of cpd_c] (n_c) {$P(\text{Ciudad}|\text{Entradera}=0)$};
+    }
+    \only<4>{
+    \node[const, left= of c, xshift=-0.1cm] (cpd_c) {
+    \begin{tabular}{|c|c|}
+        \hline
+        $c^0$ & $c^1$ \\ \hline
+        $1.000$ & $0.000$  \\ \hline
+    \end{tabular}
+    };
+    \node[const, above= of cpd_c] (n_c) {$\phantom{P|}\text{Ciudad}=0\phantom{P}$};
+    }
+
+    \only<1>{
+    \node[const,  left= of e, yshift=-0.3cm, xshift=-0.1cm] (cpd_e) {
+    \begin{tabular}{|c|c|c|}
+        \hline
+       & $e^0$ & $e^1$ \\ \hline
+      $c^0$ & $0.999$ & $0.001$  \\ \hline
+      $c^1$ & $0.95$ & $0.05$  \\ \hline
+    \end{tabular}
+    };
+    \node[const, above= of cpd_e] (n_e) {$P(\text{Entradera}|\text{Ciudad})$};
+    }
+    \only<2>{
+    \node[const,  left= of e, yshift=-0.3cm, xshift=-0.1cm] (cpd_e) {
+    \begin{tabular}{|c|c|}
+        \hline
+        $e^0$ & $e^1$ \\ \hline
+       $0.960$ & $0.040$  \\ \hline
+    \end{tabular}
+    };
+    \node[const, above= of cpd_e] (n_e) {$P(\text{Entradera})$};
+    }
+    \only<3-4>{
+    \node[const,  left= of e, yshift=-0.3cm, xshift=-0.1cm] (cpd_e) {
+    \begin{tabular}{|c|c|}
+        \hline
+        $e^0$ & $e^1$ \\ \hline
+       $1.000$ & $0.000$  \\ \hline
+    \end{tabular}
+    };
+    \node[const, above= of cpd_e] (n_e) {$\text{Entradera}=0$};
+    }
+
+    \only<1>{
+    \node[const, right= of t, yshift=0.9cm, xshift=0.1cm] (cpd_t) {
+    \begin{tabular}{|c|c|c|}
+        \hline
+       & $t^0$ & $t^1$ \\ \hline
+      $c^0$ & $0.99$ & $0.01$  \\ \hline
+     $c^1$  & $0.95$ & $0.05$  \\ \hline
+    \end{tabular}
+    };
+    \node[const, above= of cpd_t] (n_t) {$P(\text{Terremoto}|\text{Ciudad})$};
+    }
+    \only<2>{
+    \node[const, right= of t, yshift=0.6cm, xshift=0.1cm] (cpd_t) {
+    \begin{tabular}{|c|c|}
+        \hline
+        $t^0$ & $t^1$ \\ \hline
+       $0.958$ & $0.042$  \\ \hline
+    \end{tabular}
+    };
+    \node[const, above= of cpd_t] (n_t) {$P(\text{Terremoto})$};
+    }
+    \only<3>{
+    \node[const, right= of t, yshift=0.6cm, xshift=0.1cm] (cpd_t) {
+    \begin{tabular}{|c|c|}
+        \hline
+        $t^0$ & $t^1$ \\ \hline
+       $0.959$ & $0.041$  \\ \hline
+    \end{tabular}
+    };
+    \node[const, above= of cpd_t] (n_t) {$P(\text{Terremoto}|\text{Entradera}=0)$};
+    }
+    \only<4>{
+    \node[const, right= of t, yshift=0.6cm, xshift=0.1cm] (cpd_t) {
+    \begin{tabular}{|c|c|}
+        \hline
+        $t^0$ & $t^1$ \\ \hline
+       $0.990$ & $0.010$  \\ \hline
+    \end{tabular}
+    };
+    \node[const, above= of cpd_t] (n_t) {$P(\text{Terremoto}|\text{Ciudad}=0)$};
+    }
+
+
+    \only<1>{
+    \node[const, left= of a, yshift=-1.6cm, xshift=-0.5cm] (cpd_a) {
+    \begin{tabular}{|c|c|c|}
+        \hline
+        & $a^0$ & $a^1$ \\ \hline
+       ($e^0, t^0$) & $0.99$ & $0.01$  \\ \hline
+       ($e^1, t^0$) & $0.01$ & $0.99$  \\ \hline
+       ($e^0, t^1$) & $0.01$ & $0.99$  \\ \hline
+       ($e^1, t^1$) & $0.0001$ & $0.9999$  \\ \hline
+    \end{tabular}
+    };
+    \node[const, above= of cpd_a] (n_a) {$P(\text{Alarma}|\text{Entradera},\text{Terremoto})$};
+    }
+    \only<2>{
+    \node[const, left= of a, yshift=-0.6cm, xshift=-0.5cm] (cpd_a) {
+    \begin{tabular}{|c|c|}
+        \hline
+         $a^0$ & $a^1$ \\ \hline
+        $0.911$ & $0.089$  \\ \hline
+    \end{tabular}
+    };
+    \node[const, above= of cpd_a] (n_a) {$P(\text{Alarma})$};
+    }
+    \only<3>{
+    \node[const, left= of a, yshift=-0.6cm, xshift=-0.5cm] (cpd_a) {
+    \begin{tabular}{|c|c|}
+        \hline
+         $a^0$ & $a^1$ \\ \hline
+        $0.949$ & $0.051$  \\ \hline
+    \end{tabular}
+    };
+    \node[const, above= of cpd_a] (n_a) {$P(\text{Alarma}|\text{Entradera}=0)$\hspace{1.5cm}\phantom{.}};
+    }
+    \only<4>{
+    \node[const, left= of a, yshift=-0.6cm, xshift=-0.5cm] (cpd_a) {
+    \begin{tabular}{|c|c|}
+        \hline
+         $a^0$ & $a^1$ \\ \hline
+        $0.980$ & $0.020$  \\ \hline
+    \end{tabular}
+    };
+    \node[const, above= of cpd_a] (n_a) {$P(\text{Alarma}|\text{Entradera}=0, \text{Ciudad}=0)$\hspace{3cm}\phantom{.}};
+    }
+
+    \only<1>{
+    \node[const, right= of r, yshift=0.2cm, xshift=0.1cm] (cpd_r) {
+    \begin{tabular}{|c|c|c|}
+        \hline
+        & \, $r^0$ \, & \, $r^1$ \,  \\ \hline
+       $(t^0)$ & $0.99$ & $0.01$   \\ \hline
+       $(t^1)$ & $0.01$ & $0.99$   \\ \hline
+    \end{tabular}
+    };
+    \node[const, above= of cpd_r] (n_r) {$P(\text{Redes}|\text{Terremoto})$};
+    }
+    \only<2>{
+    \node[const, right= of r, yshift=0.2cm, xshift=0.1cm] (cpd_r) {
+    \begin{tabular}{|c|c|}
+        \hline
+        \, $r^0$ \, & \, $r^1$ \,  \\ \hline
+       $0.948$ & $0.052$   \\ \hline
+    \end{tabular}
+    };
+    \node[const, above= of cpd_r] (n_r) {$P(\text{Redes})$};
+    }
+    \only<3>{
+    \node[const, right= of r, yshift=0.2cm, xshift=0.1cm] (cpd_r) {
+    \begin{tabular}{|c|c|}
+        \hline
+        \, $r^0$ \, & \, $r^1$ \,  \\ \hline
+       $0.949$ & $0.051$   \\ \hline
+    \end{tabular}
+    };
+    \node[const, above= of cpd_r] (n_r) {$P(\text{Redes}|\text{Entradera}=0)$};
+    }
+    \only<4>{
+    \node[const, right= of r, yshift=0.2cm, xshift=0.1cm] (cpd_r) {
+    \begin{tabular}{|c|c|}
+        \hline
+        \, $r^0$ \, & \, $r^1$ \,  \\ \hline
+       $0.980$ & $0.020$   \\ \hline
+    \end{tabular}
+    };
+    \node[const, above= of cpd_r] (n_r) {$P(\text{Redes}|\text{Ciudad}=0)$};
+    }
+
+    \only<1>{
+    \node[const, right= of l, yshift=-0.4cm,xshift=0.1cm] (cpd_l) {
+    \begin{tabular}{|c|c|c|}
+        \hline
+        & \, $l^0$ \, & \, $l^1$ \,  \\ \hline
+       $(a^0)$ & $0.99$ & $0.01$   \\ \hline
+       $(a^1)$ & $0.01$ & $0.99$   \\ \hline
+    \end{tabular}
+    };
+    \node[const, above= of cpd_l] (n_l) {$P(\text{Llamada}|\text{Alarma})$};
+    }
+    \only<2>{
+    \node[const, right= of l, yshift=-0.4cm,xshift=0.1cm] (cpd_l) {
+    \begin{tabular}{|c|c|}
+        \hline
+         \, $l^0$ \, & \, $l^1$ \,  \\ \hline
+        $0.903$ & $0.097$   \\ \hline
+    \end{tabular}
+    };
+    \node[const, above= of cpd_l] (n_l) {$P(\text{Llamada})$};
+    }
+    \only<3>{
+    \node[const, right= of l, yshift=-0.4cm,xshift=0.1cm] (cpd_l) {
+    \begin{tabular}{|c|c|}
+        \hline
+         \, $l^0$ \, & \, $l^1$ \,  \\ \hline
+        $0.940$ & $0.060$   \\ \hline
+    \end{tabular}
+    };
+    \node[const, above= of cpd_l] (n_l) {$\phantom{.}\hspace{1.5cm}P(\text{Llamada}|\text{Entradera}=0)$};
+    }
+    \only<4>{
+    \node[const, right= of l, yshift=-0.4cm,xshift=0.1cm] (cpd_l) {
+    \begin{tabular}{|c|c|}
+        \hline
+         \, $l^0$ \, & \, $l^1$ \,  \\ \hline
+        $0.970$ & $0.030$   \\ \hline
+    \end{tabular}
+    };
+    \node[const, above= of cpd_l] (n_l) {$\phantom{.}\hspace{3.6cm}P(\text{Llamada}|\text{Entradera}=0, \text{Ciudad}=0)$};
+    }
+
+    \node[invisible, left=of e, xshift=-5.5cm] (il) {};
+    \node[invisible, right=of r, xshift=4.8cm] (ir) {};
+ }
+\end{textblock}
+
+\end{frame}
 
 
 
