@@ -1903,16 +1903,42 @@ P(\text{Modelo}|\text{Datos})
 
 
 
-
 \begin{frame}[plain,noframenumbering]
 
-\centering
-\Huge Teorías causales \\
+\begin{textblock}{160}(0,0)
+\includegraphics[width=1\textwidth]{auxiliar/static/peligro_predador}
+\end{textblock}
 
-\Large O sistemas de modelos causales
+\begin{textblock}{160}(127,67)
+\LARGE \textcolor{black!5}{\fontsize{22}{0}\selectfont \textbf{Inferencia  \\[-0.1cm] \hspace{0.5cm} causal}}
+\end{textblock}
+
+\begin{textblock}{55}(2,3)
+\begin{turn}{0}
+\parbox{15cm}{\small
+\textcolor{black!95}{Flujos de inferencia en modelos causales. Efecto de}\\
+\textcolor{black!95}{las intervenciones en modelos causales. Conclusiones} \\
+\textcolor{black!95}{causales a partir de datos observables. Identificación} \\
+\textcolor{black!95}{de modelo causal.} \\
+\normalsize\textcolor{black!95}{Unidad 2} \\
+}
+\end{turn}
+\end{textblock}
 
 \end{frame}
 
+
+
+%
+% \begin{frame}[plain,noframenumbering]
+%
+% \centering
+% \Huge Teorías causales \\
+%
+% \Large O sistemas de modelos causales
+%
+% \end{frame}
+%
 
 \begin{frame}[plain]
 \begin{textblock}{160}(0,4)
@@ -3337,10 +3363,10 @@ $\phantom{\overset{?}{=}} P(t|l) \only<13>{\overset{?}{=}}\only<14>{\neq} P(t|l,
 
 \end{frame}
 
- \begin{frame}[plain]
+\begin{frame}[plain]
 \begin{textblock}{160}(0,4)
  \centering \LARGE Estimación de efecto causal\\
- \large \only<3->{Modelo lineales}
+ \large \only<3->{Modelos lineales}
  \end{textblock}
  \vspace{0.75cm}
 
@@ -3382,34 +3408,54 @@ $\phantom{\overset{?}{=}} P(t|l) \only<13>{\overset{?}{=}}\only<14>{\neq} P(t|l,
 \end{textblock}
 }
 
-\only<4>{
+\end{frame}
+
+
+\begin{frame}[plain, fragile]
+\begin{textblock}{160}(0,4)
+ \centering \LARGE Estimación de efecto causal\\
+ \large Modelos lineales
+ \end{textblock}
+ \vspace{0.75cm}
+
+
+\begin{textblock}{140}(10,17) \normalsize
+\begin{lstlisting}
+# https://github.com/glandfried/bayesian-linear-model
+from linear_model import BayesianLinearModel
+import numpy as np
+
+N = 1000
+z1 = np.random.uniform(-3,3, size=N)
+w1 = 3*z1 + np.random.normal(size=N,scale=1)
+z2 = np.random.uniform(-3,3, size=N)
+w2 = 2*z2 + np.random.normal(size=N,scale=1)
+z3 = -2*z1 + 2*z2 + np.random.normal(size=N,scale=1)
+x = -1*w1 + 2*z3 + np.random.normal(size=N,scale=1)
+w3 = 2*x + np.random.normal(size=N,scale=1)
+y = 2 - 1*w3 - z3 + w2 + np.random.normal(size=N,scale=1)
+\end{lstlisting}
+\end{textblock}
+\end{frame}
+
+
+\begin{frame}[plain, fragile]
+\begin{textblock}{160}(0,4)
+ \centering \LARGE Estimación de efecto causal\\
+ \large Modelos lineales
+ \end{textblock}
+ \vspace{0.75cm}
+
+
+
 \begin{textblock}{120}(20,18) \centering
 $y \sim c_0 + c_1\,x + c_2\,z_3 + c_3\,w_2$
 
 \includegraphics[width=0.7\textwidth]{figuras/pdf/controles-modeloComplejos.pdf}
 \end{textblock}
-}
 
 
-
-% \begin{textblock}{160}(0,24) \centering
-%  \tikz{
-%     % MODELO DE DISCRIMINACION LABORAL
-%     \node[det] (m) {$m$} ; % Mujer
-%     \node[latent, right=of m] (d) {$d$} ; % Discriminacion
-%     \node[det, right=of d,yshift=1.5cm] (o) {$o$} ; % Cargo
-%     \node[latent, right=of d,yshift=-1.5cm] (s) {$s$} ; % Sueldo
-%     \node[latent, right=of d, xshift = 1.8cm] (a) {$a$} ; % Habilidad
-%
-%     \edge {m} {d};
-%     \edge {d} {o,s};
-%     \edge {o} {s};
-%     \edge {a} {o,s};
-%     }
-% \end{textblock}
-
-
- \end{frame}
+\end{frame}
 
 
 \begin{frame}[plain]
@@ -3483,16 +3529,237 @@ P(\text{Modelo causal}\,|\, \text{Datos},\, \text{Intervenciones}) = \,  ?
     }
 \end{textblock}
 
+\end{frame}
+
+\begin{frame}[plain]
+\begin{textblock}{160}(0,4)
+ \centering \LARGE Teorías causales deterministas \\
+ \large Structural (or functional) causal models
+\end{textblock}
 
 
+\begin{textblock}{140}(10,22)
+\Large Modelo causal. \large
+
+Conjunto de funciones $F$ y variables internas $X$ y de contorno $U$
+\end{textblock}
+
+\only<2->{
+\begin{textblock}{80}(0,42) \centering \large
+\onslide<4->{Sub}Modelo$_{A\rightarrow B}$ \hspace{0.5cm} \phantom{.}
+\end{textblock}
+
+\begin{textblock}{30}(10,50)
+\begin{align*}
+A & =\only<2-3>{f_A(U_A)}\only<4->{\text{do}(t)} \\
+B &= f_B(A,U_B)  \\
+\end{align*}
+\end{textblock}
+}
+
+
+
+\only<2->{
+\begin{textblock}{30}(40,50) \centering
+
+\tikz{
+  \node[latent, minimum size= 0.2cm] (u1) {};
+  \node[latent, fill = black, below =of u1, minimum size= 0.2cm, xshift=-0.7cm, yshift=0.3cm] (x1) {};
+  \node[latent, fill = black, below =of x1, minimum size= 0.2cm, xshift=0.7cm, yshift=0.3cm] (x2) {};
+  \node[latent,above=of x2, minimum size= 0.2cm, xshift=0.7cm, yshift=-0.3cm] (u2) {};
+  \only<-3>{\edge {u1} {x1};}
+  \edge {u2,x1} {x2};
+
+}
+\end{textblock}
+}
+
+
+\only<3->{
+\begin{textblock}{80}(80,42) \centering \large
+\onslide<4->{Sub}Modelo$_{B\rightarrow A}$ \hspace{0.5cm} \phantom{.}
+\end{textblock}
+
+\begin{textblock}{30}(90,50)
+\begin{align*}
+B &= f_B(U_B)  \\
+A & =\only<2-3>{f_A(B,U_A)}\only<4->{\text{do}(t)} \\
+\phantom{B} &\phantom{= f_B(X_A,U_B)}  \\
+\end{align*}
+\end{textblock}
+}
+
+
+
+\only<3->{
+\begin{textblock}{30}(120,52) \centering
+
+\tikz{
+  \node[latent, minimum size= 0.2cm] (u1) {};
+  \node[latent, fill = black, below =of u1, minimum size= 0.2cm, xshift=-0.7cm, yshift=0.3cm] (x1) {};
+  \node[latent, fill = black, below =of x1, minimum size= 0.2cm, xshift=0.7cm, yshift=0.3cm] (x2) {};
+  \node[latent,above=of x2, minimum size= 0.2cm, xshift=0.7cm, yshift=-0.3cm] (u2) {};
+  \only<-3>{\edge {u1,x2} {x1};}
+  \edge {u2} {x2};
+
+}
+\end{textblock}
+}
+
+
+\only<5->{
+\begin{textblock}{160}(0,78) \centering
+\text{\small (Potential outcome) } $Y_t(u) = Y_{M_t}(u)$ \text{\small  \ (Structural Causal Model)}
+\end{textblock}
+}
 
 \end{frame}
+
+%
+% \begin{frame}[plain]
+%  \begin{textblock}{160}(0,4)
+%  \centering \LARGE
+%  Modelos causales deterministas \\
+%  \Large no lineales
+% \end{textblock}
+% \vspace{0.75cm}
+%
+%
+% \begin{align*}
+%  \text{Población}(t+1) = r \cdot \text{Población}(t)\cdot (1-\text{Población}(t))
+% \end{align*}
+%
+% \vspace{0.5cm}
+%
+% \pause
+%
+% \centering
+%
+% \tikz{
+%     \node[latent] (n1) {$x_n$} ;
+%
+%     \node[latent, right=of n1, xshift=3cm] (n2) {$x_{n+1}$} ;
+%
+%      \path[->] (n1) edge node[yshift=0.5cm] {$rx_n(1-x_n)$} (n2);
+%
+% }
+%
+% %lorenz
+%
+% %juego de la vida
+%
+% \end{frame}
+%
+% \begin{frame}[plain]
+%  \begin{textblock}{160}(0,4)
+%  \centering \LARGE
+%  Modelos causales deterministas \\  \Large no lineales
+% \end{textblock}
+% \vspace{0.75cm}
+%
+% \only<1>{
+% \begin{textblock}{160}(0,22)
+% \centering
+%  \includegraphics[page={1},width=0.6\textwidth]{figuras/poblacion.pdf}
+% \end{textblock}
+% }
+%
+% \only<2>{
+% \begin{textblock}{160}(0,22)
+% \centering
+%  \includegraphics[page={2},width=0.6\textwidth]{figuras/poblacion.pdf}
+% \end{textblock}
+% }
+%
+% \only<3>{
+% \begin{textblock}{160}(0,22)
+% \centering
+%  \includegraphics[page={3},width=0.6\textwidth]{figuras/poblacion.pdf}
+% \end{textblock}
+% }
+%
+% \only<4>{
+% \begin{textblock}{160}(0,22)
+% \centering
+%  \includegraphics[page={4},width=0.6\textwidth]{figuras/poblacion.pdf}
+% \end{textblock}
+% }
+%
+% \only<5>{
+% \begin{textblock}{160}(0,22)
+% \centering
+%  \includegraphics[page={5},width=0.6\textwidth]{figuras/poblacion.pdf}
+% \end{textblock}
+% }
+%
+% \only<6>{
+% \begin{textblock}{160}(0,22)
+% \centering
+%  \includegraphics[page={6},width=0.6\textwidth]{figuras/poblacion.pdf}
+% \end{textblock}
+% }
+%
+% \only<7>{
+% \begin{textblock}{160}(0,22)
+% \centering
+%  \includegraphics[page={7},width=0.6\textwidth]{figuras/poblacion.pdf}
+% \end{textblock}
+% }
+%
+% \only<8>{
+% \begin{textblock}{160}(0,22)
+% \centering
+%  \includegraphics[page={8},width=0.6\textwidth]{figuras/poblacion.pdf}
+% \end{textblock}
+% }
+%
+%
+% \only<9>{
+% \begin{textblock}{160}(0,22)
+% \centering
+%  \includegraphics[page={9},width=0.6\textwidth]{figuras/poblacion.pdf}
+% \end{textblock}
+% }
+%
+%
+% \only<10>{
+% \begin{textblock}{160}(0,22)
+% \centering
+%  \includegraphics[page={10},width=0.6\textwidth]{figuras/poblacion.pdf}
+% \end{textblock}
+% }
+%
+% \only<11>{
+% \begin{textblock}{160}(0,22)
+% \centering
+%  \includegraphics[page={11},width=0.6\textwidth]{figuras/poblacion.pdf}
+% \end{textblock}
+% }
+%
+% \only<12>{
+% \begin{textblock}{160}(0,22)
+% \centering
+%  \includegraphics[page={12},width=0.6\textwidth]{figuras/poblacion.pdf}
+% \end{textblock}
+% }
+%
+% \only<13>{
+% \begin{textblock}{160}(0,22)
+% \centering
+%  \includegraphics[page={13},width=0.6\textwidth]{figuras/poblacion.pdf}
+% \end{textblock}
+% }
+%
+%
+%
+% \end{frame}
+
 
 \begin{frame}[plain]
 \only<1->{
 \begin{textblock}{160}(0,4)
- \centering \LARGE Factor Graph \\
- \large \only<1-6>{Notación extendida para de los modelos gráficos}\only<7->{\textbf{Modelos dinámicos: independencias específicas al contexto}}
+ \centering \LARGE Teorías causales probabilísticas \\
+ \large \only<1-6>{Notación extendida para de los modelos gráficos (Factor graph)}\only<7->{Sistemas de modelos causales}
 \end{textblock}
 }
 
@@ -3784,13 +4051,14 @@ Datos:
 \only<5>{ = \frac{\prod_i^n P(B_i, A_i, \text{do}_{A_i}|\text{M}_{BA}) }{\prod_i^n P(B_i, A_i, \text{do}_{A_i}|\text{M}_{AB}) }  }
 \only<6>{ = \frac{\prod_i^n P(B_i|\text{M}_{_{BA}}) P_0(A_i|B_i,\text{M}_{_{BA}})^{1-\text{do}_A} P_1(A_i|\text{M}_{_{BA}})^{\text{do}_A}  P(\text{do}_A|\text{M}_{BA}) }{\prod_i^n P(A_i|\text{do}_A,\text{M}_{_{AB}}) P(B_i|A_i,\text{M}_{_{AB}}) P(\text{do}_A|\text{M}_{AB}) }}
 \only<7-8>{ = \frac{\prod_i^n  P(B_i|\text{M}_{_{BA}}) P_0(A_i|B_i,\text{M}_{_{BA}})^{1-\text{do}_A} P_1(A_i|\text{M}_{_{BA}})^{\text{do}_A}  \phantom{P(\text{do}_A|\text{M}_{BA})} }{\prod_i^n  P(A_i|\text{do}_A,\text{M}_{_{AB}}) P(B_i|A_i,\text{M}_{_{AB}}) \phantom{P(\text{do}_A|\text{M}_{AB})} }}
-\only<9>{ = \prod_{i=11}^n  \frac{P(B_i|\text{M}_{_{BA}}) \alpha^{A_i} \, (1 - \alpha)^{1-A_i}}{P(B_i|A_i,\text{M}_{_{AB}}) \alpha^{A_i} \, (1 - \alpha)^{1-A_i}  }  }
-\only<10->{ = \prod_{i=11}^n \frac{P(B_i|\text{M}_{_{BA}})}{P(B_i|A_i,\text{M}_{_{AB}})  }  }
+\only<9>{ = \prod_{i=11}^n  \frac{P(B_i|\text{M}_{_{BA}}) P_1(A_i|\text{M}_{_{BA}}) }{P(B_i|A_i,\text{M}_{_{AB}}) P(A_i|\text{do}_A = 1,\text{M}_{_{AB}}) }  }
+\only<10>{ = \prod_{i=11}^n  \frac{P(B_i|\text{M}_{_{BA}}) \alpha^{A_i} \, (1 - \alpha)^{1-A_i}}{P(B_i|A_i,\text{M}_{_{AB}}) \alpha^{A_i} \, (1 - \alpha)^{1-A_i}  }  }
+\only<11->{ = \prod_{i=11}^n \frac{P(B_i|\text{M}_{_{BA}})}{P(B_i|A_i,\text{M}_{_{AB}})  }  }
 &&
 \end{flalign*}
 
 \centering
-\only<11>{
+\only<12>{
 \includegraphics[width=0.7\textwidth]{figuras/identificacion.pdf}
 }
 \end{textblock}
@@ -3839,7 +4107,7 @@ Datos:
 
 \begin{frame}[plain,noframenumbering]
 \centering \vspace{0.5cm}
-\includegraphics[width=1\textwidth]{auxiliar/static/BP.png}
+\includegraphics[width=0.6\textwidth]{auxiliar/img/LMB.png}
 \end{frame}
 
 
